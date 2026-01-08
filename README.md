@@ -1,9 +1,10 @@
 # AWS Three Tier Web Architecture Workshop
 ## For more projects, check out  
 ## [https://harishnshetty.github.io/projects.html](https://harishnshetty.github.io/projects.html)
-## [youtube-Link](https://www.youtube.com/@devopsHarishNShetty)
+## [Video-Link](https://youtu.be/wPrktKBkBQk?si=uGN33u_EWJmtoY8m)
 ## Architecture Overview
-![Architecture Diagram](https://github.com/harishnshetty/image-data-project/blob/38fd34e5aedeeaa9ba61263d6a9d0c1b3421ac80/3tieraws-project-15services%20(1).jpg)
+
+[![Video Tutorial](https://github.com/harishnshetty/image-data-project/blob/38fd34e5aedeeaa9ba61263d6a9d0c1b3421ac80/3tieraws-project-15services%20(1).jpg)](https://youtu.be/wPrktKBkBQk?si=uGN33u_EWJmtoY8m)
 
 
 ---
