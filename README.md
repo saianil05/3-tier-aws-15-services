@@ -327,7 +327,7 @@ aws sns create-topic --name Cloudwatch-sns
 - 3-tier-app-role:
     - AmazonS3ReadOnlyAccess
     - AmazonSSMManagedInstanceCore
-    - SecretsManagerReadWrite
+    - SecretsManagerReadWrite  // by adding this policy the app instance fetch the db details via SecretManager
 
 ---
 
