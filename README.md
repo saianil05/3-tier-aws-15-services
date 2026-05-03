@@ -341,26 +341,125 @@ aws sns create-topic --name Cloudwatch-sns
 | IAM Instance Profile   | 3-tier-web-role      |
 
 **User Data:**
-```bash
 #!/bin/bash
-# Log everything to /var/log/user-data.log
-exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
-# Install AWS CLI v2 (if not already)
+# Log everything to a file + console (for debugging)
+exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
+
+# Update system packages (good practice)
+yum update -y
+
+# Install AWS CLI (if not present)
 yum install -y awscli
 
 # Download application code from S3
 aws s3 cp s3://<YOUR-S3-BUCKET-NAME>/application-code /home/ec2-user/application-code --recursive
 
-# Go to app directory
+# Move into the app directory
 cd /home/ec2-user/application-code
 
-# Make script executable and run it
-chmod +x web.sh
-sudo ./web.sh
-```
+# Give execute permission
+chmod +x app.sh
+
+# Run the application script
+sudo ./app.sh
 
 ---
+
+----
+🧠 What this script is doing (Big Picture)
+
+👉 When EC2 starts:
+
+Installs required tools
+Pulls your app from S3
+Runs your app automatically
+
+✔️ This is basic CI/CD bootstrapping
+
+🔍 Line-by-Line Explanation
+1️⃣ Shebang
+#!/bin/bash
+
+👉 Tells the system:
+
+“Run this script using Bash shell”
+2️⃣ Logging setup (VERY IMPORTANT)
+exec > >(tee /var/log/user-data.log | logger -t user-data -s 2>/dev/console) 2>&1
+
+👉 This line:
+
+Captures all output (stdout + stderr)
+Saves logs to:
+/var/log/user-data.log
+Also sends logs to:
+system logger
+EC2 console (visible in AWS)
+
+✔️ Why?
+
+Debugging if script fails
+3️⃣ Install AWS CLI
+yum install -y awscli
+
+👉 Installs AWS CLI so the instance can:
+
+Talk to S3
+Download files
+
+✔️ -y = auto-confirm installation
+
+4️⃣ Download code from S3
+aws s3 cp s3://<YOUR-S3-BUCKET-NAME>/application-code /home/ec2-user/application-code --recursive
+
+👉 This command:
+
+Copies files from S3 bucket → EC2
+Breakdown:
+s3://... → your storage bucket
+/home/ec2-user/application-code → local folder
+--recursive → copy all files
+⚠️ Important Requirement
+
+EC2 must have permission via:
+👉 IAM Role
+
+Otherwise:
+❌ Access Denied error
+
+5️⃣ Change directory
+cd /home/ec2-user/application-code
+
+👉 Move into your app folder
+
+6️⃣ Give execution permission
+chmod +x app.sh
+
+👉 Makes script runnable
+
+7️⃣ Run the app
+sudo ./app.sh
+
+👉 Executes your application setup
+
+This script (app.sh) could:
+
+Start a web server (NGINX, Node, etc.)
+Install dependencies
+Launch your app
+🔁 Real DevOps Flow (What’s happening)
+EC2 Launch
+   ↓
+User Data Script Runs
+   ↓
+Install AWS CLI
+   ↓
+Pull Code from S3
+   ↓
+Run App Script
+   ↓
+Application Starts
+----
 
 ## Create app launch template
 
