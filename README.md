@@ -341,6 +341,26 @@ aws sns create-topic --name Cloudwatch-sns
 | IAM Instance Profile   | 3-tier-web-role      |
 
 **User Data:**
+
+```
+#!/bin/bash
+# Log everything to /var/log/user-data.log
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+
+# Install AWS CLI v2 (if not already)
+yum install -y awscli
+
+# Download application code from S3
+aws s3 cp s3://<YOUR-S3-BUCKET-NAME>/application-code /home/ec2-user/application-code --recursive
+
+# Go to app directory
+cd /home/ec2-user/application-code
+
+# Make script executable and run it
+chmod +x web.sh
+sudo ./web.sh
+
+```
 #!/bin/bash
 
 # Log everything to a file + console (for debugging)
