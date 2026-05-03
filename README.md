@@ -265,6 +265,56 @@ SELECT * FROM transactions;
 - name: web-tier-sns  
 - name: app-tier-sns  
 - name: Cloudwatch-sns  
+🧠 What is SNS?
+
+Amazon SNS (Simple Notification Service) is used for:
+
+Sending alerts
+Triggering notifications (email, SMS, Lambda, etc.)
+📌 Your Task
+
+Create 3 SNS topics:
+
+web-tier-sns → for web layer alerts
+app-tier-sns → for application layer alerts
+Cloudwatch-sns → for monitoring/alarms
+⚙️ Method 1: AWS Console (easy way)
+Step-by-step:
+Go to AWS Console
+Search SNS
+Click Topics → Create topic
+Create Topic 1:
+Type: Standard
+Name: web-tier-sns
+Click Create
+Repeat for:
+app-tier-sns
+Cloudwatch-sns
+📧 Add Subscription (Important)
+
+After creating topics:
+
+Open topic
+Click Create subscription
+Choose:
+Protocol: Email
+Endpoint: your email
+
+👉 Then confirm via email
+
+⚙️ Method 2: CLI (DevOps way)
+aws sns create-topic --name web-tier-sns
+aws sns create-topic --name app-tier-sns
+aws sns create-topic --name Cloudwatch-sns
+
+
+🔗 How these are used in your 3-tier project
+
+| Layer      | Usage                                |
+| ---------- | ------------------------------------ |
+| Web Tier   | Alerts if web server fails           |
+| App Tier   | Alerts if API/service fails          |
+| CloudWatch | Trigger alarms (CPU, memory, errors) |
 
 ---
 
