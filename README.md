@@ -241,6 +241,9 @@ DB_DATABASE = webappdb
 
 **Ref:** https://catalog.us-east-1.prod.workshops.aws/workshops/85cd2bb2-7f79-4e96-bdee-8078e469752a/en-US/part3/configuredatabase
 
+
+Log into the app ec2 instance (jump server) where we already installed my sql , make sure 3306 port is open in the jump server inbound server vopy the end point of database / rds and run in app ec2 instance as below
+
 ```bash
 mysql -h CHANGE-TO-YOUR-RDS-ENDPOINT -u admin -p
 ```
